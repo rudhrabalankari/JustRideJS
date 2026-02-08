@@ -1,104 +1,887 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Justride - Car Rental</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    <link
-      href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"
-      rel="stylesheet"
-    />
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background-color: #f9fafb;
+      }
 
-    <link rel="stylesheet" href="css/icon-font.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+      /* Navigation Controls */
+      .wireframe-nav {
+        background-color: #000;
+        color: white;
+        padding: 16px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-bottom: 2px solid #333;
+      }
 
-    <title>Just Ride | Exciting cars on offering</title>
-    <script src="/script.js"></script>
+      .wireframe-nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+
+      .wireframe-nav button {
+        padding: 8px 16px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: #333;
+        color: white;
+      }
+
+      .wireframe-nav button:hover {
+        background-color: #444;
+      }
+
+      .wireframe-nav button.active {
+        background-color: #ea580c;
+      }
+
+      .page {
+        display: none;
+      }
+
+      .page.active {
+        display: block;
+      }
+
+      /* Header */
+      .header {
+        background-color: #000;
+        border-bottom: 2px solid #333;
+        padding: 16px;
+      }
+
+      .header-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #ea580c;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 24px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: #ea580c;
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .btn-signin {
+        color: white;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .btn-signin:hover {
+        color: #ea580c;
+      }
+
+      .btn-signup {
+        background-color: #ea580c;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .btn-signup:hover {
+        background-color: #c2410c;
+      }
+
+      /* Hero */
+      .hero {
+        background: linear-gradient(to right, #ea580c, #c2410c);
+        color: white;
+        padding: 80px 16px;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+
+      .hero p {
+        font-size: 20px;
+        margin-bottom: 32px;
+      }
+
+      .search-widget {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: white;
+        border-radius: 8px;
+        padding: 24px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .search-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+
+      .search-field {
+        border: 2px solid #e5e7eb;
+        border-radius: 4px;
+        padding: 12px;
+      }
+
+      .search-field label {
+        display: block;
+        font-size: 12px;
+        color: #6b7280;
+        margin-bottom: 4px;
+      }
+
+      .search-field input {
+        border: none;
+        outline: none;
+        width: 100%;
+        color: #1f2937;
+      }
+
+      .btn-search {
+        background-color: #ea580c;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      .btn-search:hover {
+        background-color: #c2410c;
+      }
+
+      /* Sections */
+      .section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 48px 16px;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+
+      .section h2 {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .link-view-all {
+        color: #ea580c;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .category-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+
+      .category-card {
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 24px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .category-card:hover {
+        border-color: #ea580c;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .category-icon {
+        color: #ea580c;
+        margin-bottom: 12px;
+        font-size: 24px;
+      }
+
+      .category-card h3 {
+        font-size: 18px;
+        margin-bottom: 4px;
+      }
+
+      .category-card p {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      .car-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+
+      .car-card {
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: box-shadow 0.2s;
+      }
+
+      .car-card:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .car-image {
+        background-color: #e5e7eb;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #9ca3af;
+        font-size: 14px;
+      }
+
+      .car-info {
+        padding: 16px;
+      }
+
+      .car-info h3 {
+        font-size: 18px;
+        margin-bottom: 4px;
+      }
+
+      .car-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 12px;
+      }
+
+      .car-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .car-price {
+        font-size: 24px;
+        font-weight: bold;
+        color: #ea580c;
+      }
+
+      .car-price span {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      .btn-view-details {
+        background-color: #ea580c;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .btn-view-details:hover {
+        background-color: #c2410c;
+      }
+
+      /* Browse Page */
+      .browse-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 32px 16px;
+        display: flex;
+        gap: 24px;
+      }
+
+      .filters-sidebar {
+        width: 256px;
+        background-color: white;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px;
+        height: fit-content;
+      }
+
+      .filter-group {
+        margin-bottom: 24px;
+      }
+
+      .filter-group h4 {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .filter-group label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      .btn-reset {
+        width: 100%;
+        background-color: #000;
+        color: white;
+        padding: 8px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .listings-main {
+        flex: 1;
+      }
+
+      .listings-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .listings-header select {
+        border: 2px solid #e5e7eb;
+        border-radius: 4px;
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+
+      .car-listing {
+        background-color: white;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+
+      .listing-content {
+        display: flex;
+        gap: 16px;
+      }
+
+      .listing-image {
+        background-color: #e5e7eb;
+        width: 200px;
+        height: 130px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #9ca3af;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+
+      .listing-details {
+        flex: 1;
+      }
+
+      .listing-top {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .listing-details h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+
+      .listing-specs {
+        display: flex;
+        gap: 16px;
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 8px;
+      }
+
+      .rating {
+        display: flex;
+        gap: 2px;
+        margin-bottom: 12px;
+      }
+
+      .star {
+        color: #f59e0b;
+      }
+
+      .listing-price {
+        text-align: right;
+      }
+
+      .listing-price-amount {
+        font-size: 32px;
+        font-weight: bold;
+        color: #ea580c;
+      }
+
+      .listing-price-unit {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      .listing-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .btn-primary {
+        background-color: #ea580c;
+        color: white;
+        padding: 8px 24px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-primary:hover {
+        background-color: #c2410c;
+      }
+
+      .btn-secondary {
+        background-color: white;
+        color: #ea580c;
+        padding: 8px 24px;
+        border-radius: 4px;
+        border: 2px solid #ea580c;
+        cursor: pointer;
+      }
+
+      .btn-secondary:hover {
+        background-color: #fff7ed;
+      }
+
+      @media (max-width: 768px) {
+        .nav-links,
+        .filters-sidebar {
+          display: none;
+        }
+
+        .search-grid,
+        .category-grid,
+        .car-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
   <body>
-    <!--google script for sign in option-->
-    <script src="https://accounts.google.com/gsi/client" async></script>
-    <header class="header">
-      <div class="header__logo-box">
-        <img
-          src="img/just-ride-black-logo.jpg"
-          alt="Logo"
-          class="header__logo"
-        />
-      </div>
-      <div class="header__text-box">
-        <h1 class="heading-primary">
-          <span class="heading-primary--main">Just Ride</span>
-          <span class="heading-primary--sub"
-            >Cruize with ease, we aim to please</span
-          >
-        </h1>
-        <a href="#" class="btn btn--black btn--animated">Discover our Cars</a>
-      </div>
-    </header>
-    <div class="row">
-      <div class="column">
-        <div class="card">
-          <h3>Sign in with Google</h3>
-          <div
-            id="g_id_onload"
-            data-client_id="182767976361-mvkvbe6umr18ugjpjgaguvhvtvb1dnss.apps.googleusercontent.com"
-            data-context="signin"
-            data-ux_mode="popup"
-            data-callback="handleCredentialResponse"
-            data-auto_prompt="false"
-          ></div>
-
-          <div
-            class="g_id_signin"
-            data-type="standard"
-            data-shape="pill"
-            data-theme="outline"
-            data-text="signup_with"
-            data-size="large"
-            data-logo_alignment="left"
-          ></div>
-        </div>
-      </div>
-      <div class="column">
-        <div class="card">
-          <h3>Register with an E-Mail Id</h3>
-          <p>Some text</p>
-          <p>Some text</p>
-        </div>
+    <!-- Wireframe Navigation -->
+    <div class="wireframe-nav">
+      <div class="wireframe-nav-container">
+        <span style="font-size: 14px">Wireframe View:</span>
+        <button onclick="showPage('home')" id="nav-home" class="active">
+          Home Page
+        </button>
+        <button onclick="showPage('browse')" id="nav-browse">
+          Browse Cars
+        </button>
       </div>
     </div>
 
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
+      <header class="header">
+        <div class="header-container">
+          <div class="logo">JUSTRIDE</div>
+          <nav>
+            <ul class="nav-links">
+              <li><a href="#">Browse Cars</a></li>
+              <li><a href="#">How It Works</a></li>
+              <li><a href="#">Locations</a></li>
+            </ul>
+          </nav>
+          <div class="header-actions">
+            <button class="btn-signin">Sign In</button>
+            <button class="btn-signup">Sign Up</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-content">
+          <h1>Find Your Perfect Ride</h1>
+          <p>Rent quality cars at great prices. Easy, fast, and reliable.</p>
+        </div>
+
+        <div class="search-widget">
+          <div class="search-grid">
+            <div class="search-field">
+              <label>Pickup Location</label>
+              <input
+                id="pickup"
+                type="text"
+                placeholder="Enter pickup location"
+              />
+            </div>
+            <div class="search-field">
+              <label>Pickup Date</label>
+              <input type="text" placeholder="MM/DD/YYYY" />
+            </div>
+            <div class="search-field">
+              <label>Return Date</label>
+              <input type="text" placeholder="MM/DD/YYYY" />
+            </div>
+            <button class="btn-search">Search</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 style="margin-bottom: 24px">Popular Categories</h2>
+        <div class="category-grid">
+          <div class="category-card" onclick="showPage('browse')">
+            <div class="category-icon">⚡</div>
+            <h3>Economy</h3>
+            <p>From $29/day</p>
+          </div>
+          <div class="category-card" onclick="showPage('browse')">
+            <div class="category-icon">👥</div>
+            <h3>SUV</h3>
+            <p>From $59/day</p>
+          </div>
+          <div class="category-card" onclick="showPage('browse')">
+            <div class="category-icon">⭐</div>
+            <h3>Luxury</h3>
+            <p>From $99/day</p>
+          </div>
+          <div class="category-card" onclick="showPage('browse')">
+            <div class="category-icon">💼</div>
+            <h3>Business</h3>
+            <p>From $79/day</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>Featured Cars</h2>
+          <a class="link-view-all" onclick="showPage('browse')">View All →</a>
+        </div>
+        <div class="car-grid">
+          <div class="car-card">
+            <div class="car-image">[Car Image]</div>
+            <div class="car-info">
+              <h3>Toyota Camry 2024</h3>
+              <div class="car-meta">👥 5 Seats • Auto</div>
+              <div class="car-footer">
+                <div class="car-price">$49<span>/day</span></div>
+                <button class="btn-view-details">View Details</button>
+              </div>
+            </div>
+          </div>
+          <div class="car-card">
+            <div class="car-image">[Car Image]</div>
+            <div class="car-info">
+              <h3>Honda Accord 2024</h3>
+              <div class="car-meta">👥 5 Seats • Auto</div>
+              <div class="car-footer">
+                <div class="car-price">$52<span>/day</span></div>
+                <button class="btn-view-details">View Details</button>
+              </div>
+            </div>
+          </div>
+          <div class="car-card">
+            <div class="car-image">[Car Image]</div>
+            <div class="car-info">
+              <h3>Nissan Altima 2024</h3>
+              <div class="car-meta">👥 5 Seats • Auto</div>
+              <div class="car-footer">
+                <div class="car-price">$47<span>/day</span></div>
+                <button class="btn-view-details">View Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- BROWSE PAGE -->
+    <div id="browse" class="page">
+      <header class="header">
+        <div class="header-container">
+          <div class="logo" onclick="showPage('home')">JUSTRIDE</div>
+          <nav>
+            <ul class="nav-links">
+              <li><a href="#" class="active">Browse Cars</a></li>
+              <li><a href="#">How It Works</a></li>
+              <li><a href="#">Locations</a></li>
+            </ul>
+          </nav>
+          <div class="header-actions">
+            <span style="color: white; font-size: 24px">👤</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="browse-container">
+        <aside class="filters-sidebar">
+          <h3 style="margin-bottom: 16px">Filters</h3>
+
+          <div class="filter-group">
+            <h4>Price Range</h4>
+            <input type="range" style="width: 100%" />
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                font-size: 12px;
+                color: #6b7280;
+                margin-top: 4px;
+              "
+            >
+              <span>$20</span>
+              <span>$200+</span>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <h4>Vehicle Type</h4>
+            <label><input type="checkbox" /> Economy</label>
+            <label><input type="checkbox" /> Compact</label>
+            <label><input type="checkbox" /> SUV</label>
+            <label><input type="checkbox" /> Luxury</label>
+            <label><input type="checkbox" /> Van</label>
+          </div>
+
+          <div class="filter-group">
+            <h4>Transmission</h4>
+            <label><input type="checkbox" /> Automatic</label>
+            <label><input type="checkbox" /> Manual</label>
+          </div>
+
+          <button class="btn-reset">Reset Filters</button>
+        </aside>
+
+        <main class="listings-main">
+          <div class="listings-header">
+            <div style="font-size: 14px; color: #6b7280">Showing 24 cars</div>
+            <select>
+              <option>Sort by: Recommended</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+              <option>Newest First</option>
+            </select>
+          </div>
+
+          <div class="car-listing">
+            <div class="listing-content">
+              <div class="listing-image">[Car Image]</div>
+              <div class="listing-details">
+                <div class="listing-top">
+                  <div>
+                    <h3>Honda Civic 2024</h3>
+                    <div class="listing-specs">
+                      <span>👥 5 Seats</span>
+                      <span>Automatic</span>
+                      <span>Compact</span>
+                    </div>
+                    <div class="rating">
+                      <span class="star">★★★★★</span>
+                      <span
+                        style="
+                          font-size: 14px;
+                          color: #6b7280;
+                          margin-left: 4px;
+                        "
+                        >(128 reviews)</span
+                      >
+                    </div>
+                  </div>
+                  <div class="listing-price">
+                    <div class="listing-price-amount">$45</div>
+                    <div class="listing-price-unit">/day</div>
+                  </div>
+                </div>
+                <div class="listing-actions">
+                  <button class="btn-primary">View Details</button>
+                  <button class="btn-secondary">Quick Reserve</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="car-listing">
+            <div class="listing-content">
+              <div class="listing-image">[Car Image]</div>
+              <div class="listing-details">
+                <div class="listing-top">
+                  <div>
+                    <h3>Toyota RAV4 2024</h3>
+                    <div class="listing-specs">
+                      <span>👥 7 Seats</span>
+                      <span>Automatic</span>
+                      <span>SUV</span>
+                    </div>
+                    <div class="rating">
+                      <span class="star">★★★★★</span>
+                      <span
+                        style="
+                          font-size: 14px;
+                          color: #6b7280;
+                          margin-left: 4px;
+                        "
+                        >(95 reviews)</span
+                      >
+                    </div>
+                  </div>
+                  <div class="listing-price">
+                    <div class="listing-price-amount">$67</div>
+                    <div class="listing-price-unit">/day</div>
+                  </div>
+                </div>
+                <div class="listing-actions">
+                  <button class="btn-primary">View Details</button>
+                  <button class="btn-secondary">Quick Reserve</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="car-listing">
+            <div class="listing-content">
+              <div class="listing-image">[Car Image]</div>
+              <div class="listing-details">
+                <div class="listing-top">
+                  <div>
+                    <h3>Ford Mustang 2024</h3>
+                    <div class="listing-specs">
+                      <span>👥 4 Seats</span>
+                      <span>Automatic</span>
+                      <span>Sports</span>
+                    </div>
+                    <div class="rating">
+                      <span class="star">★★★★★</span>
+                      <span
+                        style="
+                          font-size: 14px;
+                          color: #6b7280;
+                          margin-left: 4px;
+                        "
+                        >(210 reviews)</span
+                      >
+                    </div>
+                  </div>
+                  <div class="listing-price">
+                    <div class="listing-price-amount">$89</div>
+                    <div class="listing-price-unit">/day</div>
+                  </div>
+                </div>
+                <div class="listing-actions">
+                  <button class="btn-primary">View Details</button>
+                  <button class="btn-secondary">Quick Reserve</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places&loading=async"></script>
     <script>
-      function handleCredentialResponse(response) {
-        // decodeJwtResponse() is a custom function defined by you
-        // to decode the credential response.
-        const responsePayload = decodeJwtResponse(response.credential);
-
-        console.log("ID: " + responsePayload.sub);
-        console.log("Full Name: " + responsePayload.name);
-        console.log("Given Name: " + responsePayload.given_name);
-        console.log("Family Name: " + responsePayload.family_name);
-        console.log("Image URL: " + responsePayload.picture);
-        console.log("Email: " + responsePayload.email);
-      }
-
-      function decodeJwtResponse(token) {
-        var base64Url = token.split(".")[1];
-        var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-        var jsonPayload = decodeURIComponent(
-          window
-            .atob(base64)
-            .split("")
-            .map(function (c) {
-              return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-            })
-            .join("")
-        );
-
-        return JSON.parse(jsonPayload);
-      }
+      ((g) => {
+        var h,
+          a,
+          k,
+          p = "The Google Maps JavaScript API",
+          c = "google",
+          l = "importLibrary",
+          q = "__ib__",
+          m = document,
+          b = window;
+        b = b[c] || (b[c] = {});
+        var d = b.maps || (b.maps = {}),
+          r = new Set(),
+          e = new URLSearchParams(),
+          u = () =>
+            h ||
+            (h = new Promise(async (f, n) => {
+              await (a = m.createElement("script"));
+              e.set("libraries", [...r] + "");
+              for (k in g)
+                e.set(
+                  k.replace(/[A-Z]/g, (t) => "_" + t[0].toLowerCase()),
+                  g[k],
+                );
+              e.set("callback", c + ".maps." + q);
+              a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+              d[q] = f;
+              a.onerror = () => (h = n(Error(p + " could not load.")));
+              a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+              m.head.append(a);
+            }));
+        d[l]
+          ? console.warn(p + " only loads once. Ignoring:", g)
+          : (d[l] = (f, ...n) => r.add(f) && u().then(() => dl));
+      })({
+        key: "AIzaSyARedI3DjQdD7wuBwH9L_GVDm88vqiAeP8",
+        v: "weekly",
+      });
     </script>
+    <script src="script.js"></script>
   </body>
 </html>

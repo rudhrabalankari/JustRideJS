@@ -1,0 +1,30 @@
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  border-radius: vars.$radius-small;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &--black {
+    background-color: vars.$color-black;
+    color: vars.$color-accent;
+
+    &:hover::after {
+      transform: scale(1.4) scaleY(1.6);
+      opacity: 0;
+    }
+  }
+
+  &--animated {
+    animation: animations.moveInBottom 0.5s ease-out 0.75s;
+    animation-fill-mode: backwards;
+  }
+
+  &--outline {
+    background: transparent;
+    border: 2px solid vars.$color-accent;
+    color: vars.$color-accent;
+  }
+}
