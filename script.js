@@ -314,3 +314,13 @@ function getLatestCarCount() {
 getLatestCarCount();
 
 buildMap();
+
+function setCurrentDateTime() {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+  document.getElementById("pickupDate").value = now.toISOString().slice(0, 16);
+  now.setDate(now.getDate() + 1);
+  document.getElementById("returnDate").value = now.toISOString().slice(0, 16);
+}
+
+setCurrentDateTime();
